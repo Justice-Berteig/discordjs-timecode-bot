@@ -1,0 +1,6 @@
+Add optional option for 12 hour time
+Add optional option for offset
+Add all hidden/grouped time zone names
+Allow searching by city/region
+Replace hard-coded list of emoji strings with .env strings
+    + add fallback to default emojis

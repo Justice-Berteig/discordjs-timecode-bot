@@ -81,15 +81,20 @@ function createDaySelector(data) {
 }
 
 /*
-Function creates and returns a discord.js Button object
-prompting the user to post the final poll
+Function creates and returns a discord.js ActionRow object
+containing buttons to either post the poll or cancel it
 */
-function createPostButton() {
+function createFinalButtons() {
     return new ActionRowBuilder().addComponents(
         new ButtonBuilder()
             .setCustomId("post-poll")
             .setLabel("Post Poll")
-            .setStyle(ButtonStyle.Success)
+            .setStyle(ButtonStyle.Success),
+        new ButtonBuilder()
+            .setCustomId("cancel-poll")
+            .setLabel("Cancel")
+            .setStyle(ButtonStyle.Danger)
+
     );
 }
 
@@ -157,6 +162,6 @@ function createTimeSelector(day, pollCreatedDate) {
 module.exports = {
     createConfirmButton: createConfirmButton,
     createDaySelector: createDaySelector,
-    createPostButton: createPostButton,
+    createFinalButtons: createFinalButtons,
     createTimeSelector: createTimeSelector,
 };

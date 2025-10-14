@@ -17,7 +17,7 @@ const { getTimeZones, getTimeZoneByName } = require("./util/get-time-zones.js");
 const {
     createConfirmButton,
     createDaySelector,
-    createPostButton,
+    createFinalButtons,
     createTimeSelector,
 } = require("./execute/components.js");
 const { createInfoEmbed, createPromptEmbed } = require("./execute/embeds.js");
@@ -256,7 +256,7 @@ async function execute(initialInteraction) {
                     // If hours have been selected for all the days
                     // Update the original interaction to display the new selector
                     collectedInteraction.update({
-                        components: [createPostButton()],
+                        components: [createFinalButtons()],
                         embeds: [
                             createInfoEmbed(pollData),
                             createPromptEmbed("post"),
@@ -273,6 +273,13 @@ async function execute(initialInteraction) {
                 postPoll(pollData, initialInteraction);
 
                 collector.stop();
+            } else if (collectedInteraction.customId === "cancel-poll") {
+                // If this interaction is the result of the user pressing the "Cancel" button
+              
+                // Remove the initial interaction reply
+                initialInteraction.deleteReply();
+
+                collector.stop("cancel");
             }
         }
     });
@@ -281,7 +288,12 @@ async function execute(initialInteraction) {
         // When the collector is stopped
         if (reason === "user") {
             // If the collector was stopped because the command is finished
-            // no need to do anything
+            console.log("Poll finished successfully.");
+            console.log();
+        } else if(reason === "cancel") {
+            // If the collector was stopped because the user cancelled
+            console.log("User cancelled poll.");
+            console.log();
         } else if (reason === "time") {
             // If the collector was stopped because time ran out
             console.log("Collector ran out of time.");
